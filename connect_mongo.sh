@@ -1,0 +1,1 @@
+mongo  --host localhost:27000 -u m103-application-user -p m103-application-pass --authenticationDatabase admin
