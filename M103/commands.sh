@@ -179,12 +179,6 @@ processManagement:
 mongo --host 127.0.0.1:27017
 
 use admin
-db.createUser({
-  user: "root",
-  pwd: "root123",
-  roles : [ "root" ]
-})
-
 
 db.createUser({
   user: "root",

@@ -6,7 +6,7 @@ services:
     image: mongo:4.4
     volumes:
       - ~/mongors/data1:/data/db
-      - ./rs-init.sh:/scripts/rs-init.sh
+      - ./scripts/:/scripts/
     networks:
       - mongors-network
     ports:
@@ -14,30 +14,84 @@ services:
     links:
       - mongo2
       - mongo3
-    restart: always
-    entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "dbrs" ]
+    #restart: always
+    entrypoint: [ "/usr/bin/mongod", "-f", "/scripts/sharding_node.conf" ]
   mongo2:
     container_name: mongo2
     image: mongo:4.4
     volumes:
       - ~/mongors/data2:/data/db
+      - ./scripts/:/scripts/
     networks:
       - mongors-network
     ports:
       - 27022:27017
-    restart: always
-    entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "dbrs" ]
+    #restart: always
+    entrypoint: [ "/usr/bin/mongod", "-f", "/scripts/sharding_node.conf" ]
   mongo3:
     container_name: mongo3
     image: mongo:4.4
     volumes:
       - ~/mongors/data3:/data/db
+      - ./scripts/:/scripts/
     networks:
       - mongors-network
     ports:
       - 27023:27017
-    restart: always
-    entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "dbrs" ]
+    #restart: always
+    entrypoint: [ "/usr/bin/mongod", "-f", "/scripts/sharding_node.conf" ]
+
+  mongocsrs1:
+    container_name: mongocsrs1
+    image: mongo:4.4
+    volumes:
+      - ~/mongors/datacsrs1:/data/db
+      - ./scripts/:/scripts/
+    networks:
+      - mongors-network
+    ports:
+      - 27024:26001
+    #restart: always
+    entrypoint: [ "/usr/bin/mongod", "-f", "/scripts/nodecsrs.conf" ]
+
+  mongocsrs2:
+    container_name: mongocsrs2
+    image: mongo:4.4
+    volumes:
+      - ~/mongors/datacsrs2:/data/db
+      - ./scripts/:/scripts/
+    networks:
+      - mongors-network
+    ports:
+      - 27025:26001
+    #restart: always
+    entrypoint: [ "/usr/bin/mongod", "-f", "/scripts/nodecsrs.conf" ]
+
+  mongocsrs3:
+    container_name: mongocsrs3
+    image: mongo:4.4
+    volumes:
+      - ~/mongors/datacsrs3:/data/db
+      - ./scripts/:/scripts/
+    networks:
+      - mongors-network
+    ports:
+      - 27026:26001
+    #restart: always
+    entrypoint: [ "/usr/bin/mongod", "-f", "/scripts/nodecsrs.conf" ]
+
+  mongos1:
+    container_name: mongos1
+    image: mongo:4.4
+    volumes:
+      - ~/mongors/datas1:/data/db
+      - ./scripts/:/scripts/
+    networks:
+      - mongors-network
+    ports:
+      - 27027:26000
+    #restart: always
+    entrypoint: [ "/usr/bin/mongos", "-f", "/scripts/mongos.conf" ]
 
 networks:
   mongors-network:

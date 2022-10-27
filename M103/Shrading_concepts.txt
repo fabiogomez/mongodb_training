@@ -1,0 +1,11 @@
+Shard:
+Store distribute collections
+
+Config server: 
+Store metadata abouth each Shard
+
+Mongos:
+Route query to shard
+
+All of them have replication
+

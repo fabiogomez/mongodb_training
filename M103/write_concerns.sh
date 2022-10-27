@@ -1,0 +1,1 @@
+mayority is a good option for fast and durability writes
